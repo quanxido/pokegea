@@ -1,0 +1,277 @@
+/* === BIẾN MÀU SẮC & THÔNG SỐ (THEME) === */
+:root {
+    --bg-main: #0f1115;
+    --bg-card: #181a20;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #2563eb;
+    --status-complete: #10b981; 
+    --status-ongoing: #f59e0b;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* === RESET & SETUP CƠ BẢN === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* === HEADER (Hiệu ứng kính mờ) === */
+.glass-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(15, 17, 21, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 5%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    background: linear-gradient(to right, #60a5fa, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.search-container {
+    position: relative;
+    width: 300px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+}
+
+.search-bar {
+    width: 100%;
+    padding: 10px 16px 10px 40px;
+    border-radius: 99px;
+    border: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.03);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* === MAIN CONTENT & GRID === */
+main {
+    flex: 1;
+    padding: 32px 5%;
+    max-width: 1600px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.grid-container {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(1, 1fr);
+}
+
+/* Tối ưu Layout cho các kích thước màn hình */
+@media (min-width: 640px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .grid-container { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .grid-container { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 1536px) { .grid-container { grid-template-columns: repeat(5, 1fr); } }
+
+/* === THẺ GAME (CARD) === */
+.card {
+    background-color: var(--bg-card);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.card-img {
+    width: 100%;
+    aspect-ratio: 16/9; /* Fix tỷ lệ ảnh chuẩn */
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color);
+    background-color: #111;
+}
+
+.card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    color: #fff;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Cắt chữ nếu tiêu đề quá dài */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tags-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+}
+.badge.platform { 
+    background-color: rgba(59, 130, 246, 0.15); 
+    color: #93c5fd; 
+}
+        
+.meta-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    color: var(--text-muted);
+    align-items: center;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+.status::before { content: ''; width: 8px; height: 8px; border-radius: 50%; }
+.status.complete::before { background-color: var(--status-complete); box-shadow: 0 0 8px rgba(16, 185, 129, 0.6); }
+.status.ongoing::before { background-color: var(--status-ongoing); box-shadow: 0 0 8px rgba(245, 158, 11, 0.6); }
+
+.btn-download {
+    margin-top: auto;
+    width: 100%;
+    padding: 12px;
+    background-color: var(--accent-blue);
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    border: none;
+}
+.btn-download:hover { 
+    background-color: var(--accent-blue-hover); 
+}
+.btn-download:active {
+    transform: scale(0.98);
+}
+
+/* === LOADING SPINNER & EMPTY STATE === */
+.loading-state {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 0;
+    color: var(--text-muted);
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.1);
+    border-radius: 50%;
+    border-top-color: var(--accent-blue);
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 16px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 0;
+    font-size: 1.1rem;
+}
+
+/* === FOOTER === */
+footer { 
+    text-align: center; 
+    padding: 24px; 
+    color: var(--text-muted); 
+    font-size: 0.85rem; 
+    border-top: 1px solid var(--border-color); 
+    background-color: var(--bg-card);
+}
+        
+/* === RESPONSIVE ĐIỆN THOẠI === */
+@media (max-width: 600px) {
+    .header-content {
+        flex-direction: column;
+        gap: 16px;
+    }
+    .search-container { 
+        width: 100%; 
+    }
+    .card-img {
+        height: 200px;
+    }
+}
