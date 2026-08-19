@@ -13,6 +13,10 @@ const db = firebase.database();
 
 const grid = document.getElementById('gameGrid');
 const searchInput = document.getElementById('searchInput');
+const noteModal = document.getElementById('noteModal');
+const noteContent = document.getElementById('noteContent');
+const closeNoteModal = document.getElementById('closeNoteModal');
+
 let allGames = [];
 
 function renderGames(gameList) {
@@ -37,13 +41,17 @@ function renderGames(gameList) {
                         <span class="status ${statusClass}">${game.status || 'Unknown'}</span>
                         <span>${game.version || ''}</span>
                     </div>
-                    <a href="${game.download_url}" target="_blank" rel="noopener noreferrer" class="btn-download">Tải xuống</a>
+                    <div class="card-actions">
+                        <a href="${game.download_url}" target="_blank" rel="noopener noreferrer" class="btn-download">Tải xuống</a>
+                        <button class="btn-note" onclick="openNote('${game.id}')" title="Xem chú thích">!</button>
+                    </div>
                 </div>
             </div>
         `;
     }).join('');
 }
 
+// Lắng nghe dữ liệu Game
 db.ref('games').on('value', (snapshot) => {
     const data = snapshot.val();
     allGames = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse() : [];
@@ -58,5 +66,19 @@ function filterAndRender() {
     );
     renderGames(filtered);
 }
+
+// Mở Modal Chú thích
+function openNote(id) {
+    const game = allGames.find(g => g.id === id);
+    const text = (game && game.note && game.note.trim() !== '') ? game.note : 'Không có chú thích nào cho game này.';
+    noteContent.innerText = text;
+    noteModal.style.display = 'flex';
+}
+
+// Đóng Modal
+if (closeNoteModal) closeNoteModal.onclick = () => noteModal.style.display = 'none';
+window.onclick = (e) => {
+    if (e.target === noteModal) noteModal.style.display = 'none';
+};
 
 searchInput.addEventListener('input', filterAndRender);

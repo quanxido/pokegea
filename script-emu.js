@@ -13,6 +13,10 @@ const db = firebase.database();
 
 const grid = document.getElementById('emulatorGrid');
 const searchInput = document.getElementById('searchEmu');
+const noteModal = document.getElementById('noteModal');
+const noteContent = document.getElementById('noteContent');
+const closeNoteModal = document.getElementById('closeNoteModal');
+
 let allEmulators = [];
 
 function renderEmulators(emuList) {
@@ -35,13 +39,17 @@ function renderEmulators(emuList) {
                         <span class="status complete">Sẵn sàng</span>
                         <span>${emu.version || ''}</span>
                     </div>
-                    <a href="${emu.download_url}" target="_blank" rel="noopener noreferrer" class="btn-download">Tải xuống</a>
+                    <div class="card-actions">
+                        <a href="${emu.download_url}" target="_blank" rel="noopener noreferrer" class="btn-download">Tải xuống</a>
+                        <button class="btn-note" onclick="openNote('${emu.id}')" title="Xem chú thích">!</button>
+                    </div>
                 </div>
             </div>
         `;
     }).join('');
 }
 
+// Lắng nghe dữ liệu Giả lập
 db.ref('emulators').on('value', (snapshot) => {
     const data = snapshot.val();
     allEmulators = data ? Object.keys(data).map(key => ({ id: key, ...data[key] })).reverse() : [];
@@ -56,5 +64,19 @@ function filterAndRender() {
     );
     renderEmulators(filtered);
 }
+
+// Mở Modal Chú thích
+function openNote(id) {
+    const emu = allEmulators.find(e => e.id === id);
+    const text = (emu && emu.note && emu.note.trim() !== '') ? emu.note : 'Không có chú thích nào cho giả lập này.';
+    noteContent.innerText = text;
+    noteModal.style.display = 'flex';
+}
+
+// Đóng Modal
+if (closeNoteModal) closeNoteModal.onclick = () => noteModal.style.display = 'none';
+window.onclick = (e) => {
+    if (e.target === noteModal) noteModal.style.display = 'none';
+};
 
 searchInput.addEventListener('input', filterAndRender);

@@ -251,9 +251,15 @@ main {
     box-shadow: 0 0 8px var(--status-ongoing);
 }
 
-.btn-download {
+/* === BỐ CỤC NÚT TẢI XUỐNG VÀ NÚT CHÚ THÍCH (!) === */
+.card-actions {
+    display: flex;
+    gap: 8px;
     margin-top: auto;
-    width: 100%;
+}
+
+.btn-download {
+    flex: 1;
     padding: 12px;
     background-color: var(--accent-blue);
     color: #fff;
@@ -272,6 +278,87 @@ main {
 
 .btn-download:active {
     transform: scale(0.98);
+}
+
+.btn-note {
+    width: 44px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--status-ongoing);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.btn-note:hover {
+    background-color: rgba(245, 158, 11, 0.15);
+    border-color: var(--status-ongoing);
+    color: #fff;
+}
+
+/* === MODAL CHÚ THÍCH (GIAO DIỆN KHÁCH) === */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    box-shadow: var(--card-shadow-hover);
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--status-ongoing);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 16px; right: 20px;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover { color: var(--text-main); }
+
+.note-box {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    max-height: 320px;
+    overflow-y: auto;
 }
 
 /* === LOADING & EMPTY STATE === */
