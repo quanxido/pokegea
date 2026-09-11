@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta name="google-site-verification" content="TDYYEgRd1_vofS471BQTcjY7LXfRAF65r_FAeVDM96U" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#080b10">
+  <meta name="description" content="POKEGEA — Kho trình giả lập.">
+  <meta name="color-scheme" content="dark">
+  <title>POKEGEA — Giả lập</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+</head>
+<body data-page="emulators">
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./index.html" data-route="games" aria-label="POKEGEA — Trang chủ"><span class="brand-mark">P</span><span class="brand-copy"><strong>POKEGEA</strong><small>GAME ARCHIVE</small></span></a>
+      <nav class="main-nav" aria-label="Điều hướng chính"><a class="nav-link" href="./index.html" data-route="games"><span>🎮</span><span>Games</span></a><a class="nav-link active" href="./emulator.html" data-route="emulator"><span>⚙️</span><span>Giả lập</span></a></nav>
+      <div class="header-tools" aria-label="Tiện ích POKEGEA"><button class="header-tool" id="updateCenterButton" type="button" aria-label="Mở Update Center" title="Update Center"><span class="tool-icon">◫</span><span class="tool-label">Updates</span><b class="tool-badge" id="updateBadge" hidden>0</b></button><button class="header-tool support-tool" id="supportButton" type="button" aria-label="Ủng hộ dịch giả" title="Ủng hộ dịch giả"><span class="tool-icon">♥</span><span class="tool-label">Ủng hộ</span></button></div>
+      <label class="search-box" for="searchEmu"><svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input id="searchEmu" type="search" autocomplete="off" spellcheck="false" placeholder="Tìm giả lập, hệ máy..."><button id="searchClear" class="search-clear" type="button" aria-label="Xóa tìm kiếm" hidden>×</button><kbd>/</kbd></label>
+    </div>
+  </header>
+
+  <main class="page-shell page-shell-library">
+    <section class="control-panel" aria-label="Công cụ thư viện giả lập">
+      <div class="control-row control-row-main"><div><div class="library-title">Emulator Library</div><div class="result-label" id="resultLabel">Đang tải dữ liệu…</div></div><div class="control-actions"><button class="view-button active" data-view="grid" type="button" title="Dạng lưới" aria-label="Dạng lưới">▦</button><button class="view-button" data-view="compact" type="button" title="Dạng gọn" aria-label="Dạng gọn">☷</button></div></div>
+      <div class="chip-scroll" id="platformFilters" aria-label="Lọc theo hệ máy"></div>
+      <div class="control-row control-row-bottom"><div class="filter-group"><button class="filter-chip active" type="button" data-filter="all">Tất cả</button><button class="filter-chip" type="button" data-filter="ready">Sẵn sàng</button></div><label class="sort-select-wrap">Sắp xếp<select id="sortSelect" class="sort-select"><option value="newest">Mới nhất</option><option value="name-asc">Tên A–Z</option><option value="name-desc">Tên Z–A</option></select></label></div>
+    </section>
+    <div class="grid-container" id="emulatorGrid"><div class="loading-state"><div class="spinner"></div><p>Đang kết nối tới kho giả lập…</p></div></div>
+  </main>
+
+  <div class="modal-overlay" id="noteModal" role="dialog" aria-modal="true" aria-labelledby="noteTitle" hidden>
+    <div class="modal-content detail-modal">
+      <button class="close-btn" id="closeNoteModal" type="button" aria-label="Đóng">×</button>
+      <div class="detail-hero">
+        <div class="detail-image-wrap" id="detailImageWrap">
+          <img id="detailImage" class="detail-image" alt="" decoding="async" referrerpolicy="no-referrer">
+          <div id="detailImageFallback" class="detail-image-fallback" aria-hidden="true">⚙️</div>
+        </div>
+        <div class="detail-summary">
+          <div class="modal-kicker">THÔNG TIN GIẢ LẬP</div>
+          <h2 class="modal-title" id="noteTitle">Chi tiết giả lập</h2>
+          <div class="detail-meta" id="detailMeta"></div>
+          <div class="detail-status" id="detailStatus"></div>
+        </div>
+      </div>
+      <div class="detail-section-heading"><span>Thông tin & ghi chú</span></div>
+      <div class="note-box" id="noteContent">Đang tải…</div>
+      <div class="modal-actions detail-actions"><a id="modalDownload" class="btn-download" target="_blank" rel="noopener noreferrer">Tải xuống</a></div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="updateModal" role="dialog" aria-modal="true" aria-labelledby="updateCenterTitle" hidden><div class="modal-content feature-modal update-modal"><button class="close-btn" id="closeUpdateModal" type="button" aria-label="Đóng">×</button><div class="modal-kicker">POKEGEA NEWS</div><div class="feature-heading-row"><div><h2 class="modal-title" id="updateCenterTitle">Update Center</h2><p class="feature-subtitle">Tin mới, bản cập nhật và thay đổi từ POKEGEA.</p></div><span class="live-pill">LIVE</span></div><div id="updateList" class="update-list"><div class="feature-loading">Đang tải cập nhật…</div></div></div></div>
+  <div class="modal-overlay" id="supportModal" role="dialog" aria-modal="true" aria-labelledby="supportTitle" hidden><div class="modal-content feature-modal support-modal"><button class="close-btn" id="closeSupportModal" type="button" aria-label="Đóng">×</button><div class="modal-kicker">HỖ TRỢ DỊCH GIẢ</div><div id="supportContent" class="support-content"><div class="feature-loading">Đang tải thông tin…</div></div></div></div>
+
+  <footer><div class="footer-inner"><span>© 2026 POKEGEA Game Archive</span></div></footer>
+  <nav class="mobile-nav" aria-label="Điều hướng di động"><a href="./index.html" data-route="games"><span>🎮</span><small>Games</small></a><a class="active" href="./emulator.html" data-route="emulator"><span>⚙️</span><small>Giả lập</small></a><button id="mobileSearchButton" type="button"><span>⌕</span><small>Tìm kiếm</small></button></nav>
+    <script src="route.js" defer></script>
+  <script src="script-emu.js" defer></script>
+</body>
+</html>

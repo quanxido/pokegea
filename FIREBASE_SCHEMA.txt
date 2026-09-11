@@ -1,0 +1,30 @@
+POKEGEA V4 - Firebase nodes
+
+Existing (unchanged):
+games/{id}: name, image, platform, language, status, version, download_url, note
+emulators/{id}: name, image, platform, version, download_url, note
+
+Update Center:
+updates/{id}:
+  title: string
+  message: string
+  date: string (optional)
+  version: string (optional)
+  image: URL (optional)
+  link: URL (optional)
+  pinned: true/false (optional)
+  createdAt: number (recommended Unix ms)
+
+Support / Donate:
+support:
+  title: string
+  subtitle: string
+  description: string
+  image: URL (optional)
+  images: [URL, URL, ...] (or object)
+  qrImage: URL (optional)
+  buttonText: string
+  buttonUrl: URL
+
+Admin can later upload images to Firebase Storage, then write their public/download URL
+into the support or updates node. The client reads these nodes in realtime.
